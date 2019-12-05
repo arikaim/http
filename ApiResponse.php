@@ -267,6 +267,7 @@ class ApiResponse
     public function getResponseJson()
     {
         $this->result['errors'] = $this->errors;
+        $this->result['executeion_time'] = Utils::getExecutionTime();
         if ($this->hasError() == true) {
             $this->result['status'] = "error"; 
             $this->result['code'] = 400;

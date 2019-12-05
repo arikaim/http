@@ -151,9 +151,12 @@ class Session
     public static function getParams() 
     {
         return [
-            'time_start' => Self::getStartTime(),
-            'time_end'   => Self::getEndTime(),
-            'lifetime'   => Self::getLifetime()
+            'time_start'  => Self::getStartTime(),
+            'time_end'    => Self::getEndTime(),
+            'lifetime'    => Self::getLifetime(),
+            'active'      => Self::isActive(),
+            'started'     => Self::isStarted(),
+            'use_cookies' => Self::isUseCookies()
         ];
     }
 
