@@ -140,7 +140,7 @@ class Session
     {
         $id = session_id();
 
-        return (empty($id) == true) ? Self::getCookie('PHPSESSID') : $id;      
+        return $id;  
     }
     
     /**
@@ -150,7 +150,7 @@ class Session
      */
     public static function getParams() 
     {
-        return [
+        return [            
             'time_start'  => Self::getStartTime(),
             'time_end'    => Self::getEndTime(),
             'lifetime'    => Self::getLifetime(),

@@ -42,7 +42,7 @@ class GuzzleClientAdapter implements HttpClientAdapterInterface
      * @param array               $options Request options to apply. 
      *
      * @return ResponseInterface
-     */
+    */
     public function request($method, $uri, array $options = [])
     {
         return $this->client->request($method,$uri,$options);

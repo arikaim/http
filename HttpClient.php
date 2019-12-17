@@ -73,7 +73,7 @@ class HttpClient implements HttpClientInterface
      */
     public function get($uri, array $options = [])
     {
-        return $this->adapter->request('GET',$uri,$options = []);
+        return $this->adapter->request('GET',$uri,$options);
     }
 
     /**
@@ -86,7 +86,7 @@ class HttpClient implements HttpClientInterface
     */
     public function head($uri, array $options = [])
     {
-        return $this->adapter->request('HEAD',$uri,$options = []);
+        return $this->adapter->request('HEAD',$uri,$options);
     }
 
     /**
@@ -99,7 +99,7 @@ class HttpClient implements HttpClientInterface
     */
     public function put($uri, array $options = [])
     {
-        return $this->adapter->request('PUT',$uri,$options = []);
+        return $this->adapter->request('PUT',$uri,$options);
     }
 
     /**
@@ -112,7 +112,7 @@ class HttpClient implements HttpClientInterface
     */
     public function delete($uri, array $options = [])
     {
-        return $this->adapter->request('DELETE',$uri,$options = []);
+        return $this->adapter->request('DELETE',$uri,$options);
     }
 
     /**
@@ -125,7 +125,7 @@ class HttpClient implements HttpClientInterface
     */
     public function post($uri, array $options = [])
     {
-        return $this->adapter->request('POST',$uri,$options = []);
+        return $this->adapter->request('POST',$uri,$options);
     }
 
     /**
@@ -138,7 +138,7 @@ class HttpClient implements HttpClientInterface
     */
     public function options($uri, array $options = [])
     {
-        return $this->adapter->request('OPTIONS',$uri,$options = []);
+        return $this->adapter->request('OPTIONS',$uri,$options);
     }
 
     /**
@@ -151,7 +151,7 @@ class HttpClient implements HttpClientInterface
     */
     public function patch($uri, array $options = [])
     {
-        return $this->adapter->request('PATCH',$uri,$options = []);
+        return $this->adapter->request('PATCH',$uri,$options);
     }
 
      /**
@@ -164,7 +164,7 @@ class HttpClient implements HttpClientInterface
     */
     public function trace($uri, array $options = [])
     {
-        return $this->adapter->request('TRACE',$uri,$options = []);
+        return $this->adapter->request('TRACE',$uri,$options);
     }
     
     /**
@@ -177,6 +177,6 @@ class HttpClient implements HttpClientInterface
     */
     public function connect($uri, array $options = [])
     {
-        return $this->adapter->request('CONNECT',$uri,$options = []);
+        return $this->adapter->request('CONNECT',$uri,$options);
     }
 }
