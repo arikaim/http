@@ -81,11 +81,12 @@ class Url
      * Get template url
      *
      * @param string $template
+     * @param string $path
      * @return string
      */
-    public static function getTemplateUrl($template) 
+    public static function getTemplateUrl($template, $path = '') 
     {       
-        return Self::TEMPLATES_URL . "/$template";       
+        return Self::TEMPLATES_URL . "/$template" . $path;       
     }
 
     /**
@@ -162,11 +163,12 @@ class Url
      * Get extension view url
      *
      * @param string $extension
+     * @param string $path
      * @return string
      */
-    public static function getExtensionViewUrl($extension)
+    public static function getExtensionViewUrl($extension, $path = '')
     {
-        return Self::EXTENSIONS_URL . "/$extension/view";
+        return Self::EXTENSIONS_URL . "/$extension/view" . $path;
     }
 
     /**
