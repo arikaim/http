@@ -24,17 +24,14 @@ class Cookie
      * @param string $domain
      * @return Psr\Http\Message\ResponseInterface|boolean
     */
-    public static function delete($name, $response = null, $domain = "")
-    {
+    public static function delete($name, $response = null, $domain = '')
+    {        
         $cookie = urlencode($name) . '=' . urlencode('false') . '; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; secure; httponly';
-        if (is_obejct($response) == true) {
-            $response = $response->withAddedHeader('Set-Cookie', $cookie);
-        } else {
-            return setcookie($name,'false',-100,"/",$domain,true,true);
-        }
-
-    
-        return $response;
+        if (is_object($response) == true) {
+            return $response->withAddedHeader('Set-Cookie', $cookie);          
+        } 
+        
+        return setcookie($name,'',time() - 100,"/",$domain);        
     }
 
     /**
@@ -43,21 +40,22 @@ class Cookie
      * @param string $name
      * @param string $value
      * @param Psr\Http\Message\ResponseInterface|null $response
-     * @param integer $expire
+     * @param integer $expire Minutes
      * @param string $domain
      * @return Psr\Http\Message\ResponseInterface|boolean
      */
-    public static function add($name, $value, $response = null, $expire = 3600, $domain = "")
-    {
-        $cookie = urlencode($name) . '=' . urlencode($value) . '; ' . Self::getExpireParam($expire) . '; ' . Self::getAgeParam($expire) . '; path=/; secure; httponly';
-        if (is_obejct($response) == true) {
+    public static function add($name, $value, $response = null, $expire = 360, $domain = '')
+    {             
+        $expires = time() + ($expire * 60);     
+
+        if (is_object($response) == true) {
+            $cookie = urlencode($name) . '=' . urlencode($value) . '; ' . Self::getExpireParam($expire) . '; ' . Self::getAgeParam($expire) . '; path=/; secure; httponly';
             $response = $response->withAddedHeader('Set-Cookie', $cookie);
-        } else {
-            $expires = time() + ($expire * 60);           
-            return setcookie($name,$value,$expires,"/",$domain,true,true); 
-        }
-       
-        return $response;
+            
+            return $response;
+        } 
+    
+        return setcookie($name,$value,$expires,"/",$domain);        
     }
 
     /**
