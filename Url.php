@@ -30,12 +30,12 @@ class Url
      */
     public static function init($domain,$basePath)
     {
-        if (defined('DOMAIN') == false) {
-            define('DOMAIN',$domain);
+        if (\defined('DOMAIN') == false) {
+            \define('DOMAIN',$domain);
         }
 
-        if (defined('BASE_PATH') == false) {
-            define('BASE_PATH',$basePath);
+        if (\defined('BASE_PATH') == false) {
+            \define('BASE_PATH',$basePath);
         }
     }
 
@@ -47,8 +47,8 @@ class Url
      */
     public static function setAppUrl($path) 
     {
-        if (defined('APP_URL') == false) {
-            define('APP_URL',Self::BASE_URL . $path);
+        if (\defined('APP_URL') == false) {
+            \define('APP_URL',Self::BASE_URL . $path);
         }       
     }
 
@@ -179,6 +179,6 @@ class Url
      */
     public static function isValid($url)
     {
-        return (filter_var($url,FILTER_VALIDATE_URL) == true) ? true : false; 
+        return (\filter_var($url,FILTER_VALIDATE_URL) == true) ? true : false; 
     }
 }

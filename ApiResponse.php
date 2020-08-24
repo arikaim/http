@@ -9,6 +9,8 @@
 */
 namespace Arikaim\Core\Http;
 
+use Psr\Http\Message\ResponseInterface;
+
 use Arikaim\Core\Utils\Utils;
 use Closure;
 
@@ -63,6 +65,7 @@ class ApiResponse
      * Constructor
      *
      * @param boolean $debug
+     * @param Response|null $response
      */
     public function __construct($debug = false, $response = null) 
     {                    
@@ -80,11 +83,12 @@ class ApiResponse
     /**
      * Set json pretty format to true
      *
-     * @return Response
+     * @return ApiResponse
      */
     public function useJsonPrettyformat()
     {
         $this->prettyFormat = true;
+
         return $this;
     }
 
@@ -96,10 +100,10 @@ class ApiResponse
      */
     public function addErrors(array $errors)
     {
-        if (is_array($errors) == false) {
+        if (\is_array($errors) == false) {
             return false;
         }
-        $this->errors = array_merge($this->errors,$errors);       
+        $this->errors = \array_merge($this->errors,$errors);       
     }
 
     /**
@@ -133,7 +137,7 @@ class ApiResponse
     public function setError($errorMessage, $condition = true) 
     {
         if ($condition !== false) {
-            array_push($this->errors,$errorMessage);  
+            \array_push($this->errors,$errorMessage);  
         }               
     }
 
@@ -142,11 +146,12 @@ class ApiResponse
      *
      * @param string $errorMessage
      * @param boolean $condition
-     * @return Response
+     * @return ApiResponse
      */
     public function withError($errorMessage, $condition = true) 
     {
         $this->setError($errorMessage,$condition);
+
         return $this;
     }
 
@@ -154,11 +159,12 @@ class ApiResponse
      * Set response result
      *
      * @param mixed $data
-     * @return Response
+     * @return ApiResponse
      */
     public function setResult($data) 
     {
-        $this->result['result'] = $data;      
+        $this->result['result'] = $data;   
+
         return $this;
     }
 
@@ -173,17 +179,17 @@ class ApiResponse
     public function setResponse($condition, $data, $error)
     {
         if ($condition !== false) {
-            if (is_callable($data) == true) {
+            if (\is_callable($data) == true) {
                 return $data();
             } 
-            if (is_array($data) == true) {
+            if (\is_array($data) == true) {
                 return $this->setResult($data);
             }
-            if (is_string($data) == true) {
+            if (\is_string($data) == true) {
                 return $this->message($data);
             }
         } else {
-            return (is_callable($error) == true) ? $error() : $this->setError($error);          
+            return (\is_callable($error) == true) ? $error() : $this->setError($error);          
         }
     }
 
@@ -191,7 +197,7 @@ class ApiResponse
      * Set result message
      *
      * @param string $message
-     * @return Response
+     * @return ApiResponse
      */
     public function message($message)
     {
@@ -215,11 +221,12 @@ class ApiResponse
      *
      * @param string $name
      * @param mixed $value
-     * @return Response
+     * @return ApiResponse
      */
     public function field($name, $value)
     {
         $this->setResultField($name,$value);
+
         return $this;
     }
 
@@ -248,7 +255,7 @@ class ApiResponse
      *     
      * @param boolean $raw
      *  
-     * @return Slim\Http\Response
+     * @return ResponseInterface
      */
     public function getResponse($raw = false) 
     {           
@@ -278,6 +285,6 @@ class ApiResponse
         }
         $result = ($this->raw == true) ? $this->result['result'] : $this->result;
     
-        return ($this->prettyFormat == true) ? Utils::jsonEncode($result) : json_encode($result,true);      
+        return ($this->prettyFormat == true) ? Utils::jsonEncode($result) : \json_encode($result,true);      
     }    
 }

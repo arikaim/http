@@ -26,12 +26,12 @@ class Cookie
     */
     public static function delete($name, $response = null, $domain = '')
     {        
-        $cookie = urlencode($name) . '=' . urlencode('false') . '; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; secure; httponly';
-        if (is_object($response) == true) {
+        $cookie = \urlencode($name) . '=' . \urlencode('false') . '; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; secure; httponly';
+        if (\is_object($response) == true) {
             return $response->withAddedHeader('Set-Cookie', $cookie);          
         } 
         
-        return setcookie($name,'',time() - 100,"/",$domain);        
+        return \setcookie($name,'',\time() - 100,"/",$domain);        
     }
 
     /**
@@ -46,10 +46,10 @@ class Cookie
      */
     public static function add($name, $value, $response = null, $expire = 360, $domain = '')
     {             
-        $expires = time() + ($expire * 60);     
+        $expires = \time() + ($expire * 60);     
 
-        if (is_object($response) == true) {
-            $cookie = urlencode($name) . '=' . urlencode($value) . '; ' . Self::getExpireParam($expire) . '; ' . Self::getAgeParam($expire) . '; path=/; secure; httponly';
+        if (\is_object($response) == true) {
+            $cookie = \urlencode($name) . '=' . \urlencode($value) . '; ' . Self::getExpireParam($expire) . '; ' . Self::getAgeParam($expire) . '; path=/; secure; httponly';
             $response = $response->withAddedHeader('Set-Cookie', $cookie);
             
             return $response;
@@ -68,7 +68,7 @@ class Cookie
      */
     public static function get($name, $request = null, $default = null)
     {
-        $cookies = is_object($request) ? $request->getCookieParams() : $_COOKIE;
+        $cookies = \is_object($request) ? $request->getCookieParams() : $_COOKIE;
 
         return isset($cookies[$name]) ? $cookies[$name] : $default;
     }

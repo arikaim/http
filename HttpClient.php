@@ -29,7 +29,6 @@ class HttpClient implements HttpClientInterface
     /**
      * Constructor
      *
-     * @return void
      */
     public function __construct(HttpClientAdapterInterface $adapter = null)
     {
@@ -60,7 +59,7 @@ class HttpClient implements HttpClientInterface
         }
         $response = $this->adapter->request('GET',$url,$options);
 
-        return (is_object($response) == true) ? $response->getBody() : null;
+        return (\is_object($response) == true) ? $response->getBody() : null;
     }
 
     /**

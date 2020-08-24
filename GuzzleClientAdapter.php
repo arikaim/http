@@ -27,7 +27,6 @@ class GuzzleClientAdapter implements HttpClientAdapterInterface
     /**
      * Constructor
      *
-     * @return void
      */
     public function __construct()
     {

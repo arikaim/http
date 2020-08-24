@@ -35,15 +35,15 @@ class Session
         Self::setLifetime($lifetime);
 
         if (Self::isStarted() == false) {
-            session_start();
+            \session_start();
             $startTime = Self::getStartTime();
-            $startTime = (empty($startTime) == true) ? time() : $startTime;
+            $startTime = (empty($startTime) == true) ? \time() : $startTime;
             Self::set('time_start',$startTime);  
             Self::set('lifetime',$lifetime);          
         }
 
         if (Self::isActive() == false) {
-            session_cache_limiter(false);  
+            \session_cache_limiter(false);  
         }      
     }
 
@@ -54,7 +54,7 @@ class Session
      */
     public static function isStarted()
     {
-        return !(session_status() == PHP_SESSION_NONE);
+        return !(\session_status() == PHP_SESSION_NONE);
     }
 
     /**
@@ -64,7 +64,7 @@ class Session
      */
     public static function isActive() 
     {
-        return (session_status() == PHP_SESSION_ACTIVE);
+        return (\session_status() == PHP_SESSION_ACTIVE);
     }
 
     /**
@@ -81,7 +81,7 @@ class Session
         foreach ($session as $key => $value) {
             Self::set($key,$value);
         }
-        Self::set('time_start',time());   
+        Self::set('time_start',\time());   
 
         return true;
     }
@@ -114,9 +114,9 @@ class Session
      */
     public static function setLifetime($time)
     {
-        ini_set("session.cookie_lifetime",$time);
-        ini_set("session.gc_maxlifetime",$time);
-        session_set_cookie_params($time);
+        \ini_set("session.cookie_lifetime",$time);
+        \ini_set("session.gc_maxlifetime",$time);
+        \session_set_cookie_params($time);
     }
 
     /**
@@ -126,7 +126,7 @@ class Session
      */
     public static function getLifetime()
     {
-        $info = session_get_cookie_params();
+        $info = \session_get_cookie_params();
 
         return $info['lifetime'];
     }
@@ -138,7 +138,7 @@ class Session
      */
     public static function getId() 
     {
-        $id = session_id();
+        $id = \session_id();
 
         return $id;  
     }
@@ -215,9 +215,9 @@ class Session
     public static function destroy($destoryCookie = true)
     {
         if ($destoryCookie == true) {
-            setcookie(session_id(),"",time() - 3600);
+            \setcookie(\session_id(),"",\time() - 3600);
         }       
-        session_destroy();
+        \session_destroy();
     }
 
     /**
@@ -228,7 +228,7 @@ class Session
      */
     public static function restart($lifetime = null)
     {
-        session_unset();      
+        \session_unset();      
         Self::destroy();
         Self::start($lifetime);
     }
@@ -240,7 +240,7 @@ class Session
      */
     public static function getStatus()
     {
-        return session_status();
+        return \session_status();
     }
 
     /**
@@ -250,7 +250,7 @@ class Session
      */
     public static function toArray()
     {
-        return (is_array($_SESSION) == true) ? $_SESSION : [];          
+        return (\is_array($_SESSION) == true) ? $_SESSION : [];          
     }
 
     /**
@@ -259,6 +259,6 @@ class Session
      * @return boolean
      */
     public static function isUseCookies() {
-        return ini_get("session.use_cookies");
+        return \ini_get("session.use_cookies");
     }
 }

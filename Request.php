@@ -45,17 +45,13 @@ class Request
     {
         // try with content type
         $header = Self::getContentType($request);             
-        if (strpos($header,'json') !== false) {
+        if (\strpos($header,'json') !== false) {
             return true;
         }
-        
         // request method
         $method = $request->getMethod();
-        if ($method != "GET") {
-            return true;
-        }
-      
-        return false;
+
+        return ($method != 'GET');
     }
     
     /**
@@ -68,7 +64,7 @@ class Request
     {
         $content = Self::getContentType($request);
 
-        return (substr($content,-3) == 'xml') ? true : false;
+        return (\substr($content,-3) == 'xml') ? true : false;
     }
 
     /**
@@ -81,7 +77,7 @@ class Request
     {
         $content = Self::getContentType($request);
 
-        return (substr($content,-4) == 'html') ? true : false;
+        return (\substr($content,-4) == 'html') ? true : false;
     }
 
     /**
@@ -93,9 +89,9 @@ class Request
     public static function parseAcceptHeader($request)
     {
         $accept = $request->getHeaderLine('Accept');
-        $parts = explode(';',$accept);
+        $parts = \explode(';',$accept);
 
-        return explode(',',$parts[0]);
+        return \explode(',',$parts[0]);
     }
 
     /**
@@ -108,7 +104,7 @@ class Request
     {
         $contentTypes = Self::parseAcceptHeader($request);
         foreach ($contentTypes as $item) {
-            if (substr($item,-4) == 'json') {
+            if (\substr($item,-4) == 'json') {
                 return true;
             }
         }
@@ -126,7 +122,7 @@ class Request
     {
         $contentTypes = Self::parseAcceptHeader($request);
         foreach ($contentTypes as $item) {
-            if (substr($item,-3) == 'xml') {
+            if (\substr($item,-3) == 'xml') {
                 return true;
             }
         }
@@ -141,23 +137,24 @@ class Request
      */
     public static function getBrowserName()
     {      
-        $userAgent =  " " . strtolower($_SERVER['HTTP_USER_AGENT']);
+        $userAgent =  " " . \strtolower($_SERVER['HTTP_USER_AGENT']);
+        
         switch ($userAgent) {
-            case (strpos($userAgent,'opera') != false):
+            case (\strpos($userAgent,'opera') != false):
                 return 'Opera';                
-            case (strpos($userAgent,'edge') != false):
+            case (\strpos($userAgent,'edge') != false):
                 return 'Edge';
-            case (strpos($userAgent,'firefox') != false):
+            case (\strpos($userAgent,'firefox') != false):
                 return 'Firefox';    
-            case (strpos($userAgent,'chrome') != false):
+            case (\strpos($userAgent,'chrome') != false):
                 return 'Chrome';  
-            case (strpos($userAgent,'safari') != false):
+            case (\strpos($userAgent,'safari') != false):
                 return 'Safari';    
-            case (strpos($userAgent,'msie') != false):
+            case (\strpos($userAgent,'msie') != false):
                 return 'Internet Explorer';  
-            case (strpos($userAgent,'mobile') != false):
+            case (\strpos($userAgent,'mobile') != false):
                 return 'Mobile Browser'; 
-            case (strpos($userAgent,'android') != false):
+            case (\strpos($userAgent,'android') != false):
                 return 'Mobile Browser';                
             default: 
                 return null;
