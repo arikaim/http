@@ -151,10 +151,10 @@ class Url
      * Get UI library file url
      *
      * @param string $library
-     * @param string $fileName
+     * @param string|null $fileName
      * @return string
      */
-    public static function getLibraryFileUrl($library, $fileName)
+    public static function getLibraryFileUrl($library, $fileName = '')
     {
         return Self::getLibraryUrl($library) . "/$fileName";
     }
