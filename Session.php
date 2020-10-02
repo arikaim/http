@@ -114,8 +114,8 @@ class Session
      */
     public static function setLifetime($time)
     {
-        \ini_set("session.cookie_lifetime",$time);
-        \ini_set("session.gc_maxlifetime",$time);
+        \ini_set('session.cookie_lifetime',$time);
+        \ini_set('session.gc_maxlifetime',$time);
         \session_set_cookie_params($time);
     }
 
@@ -215,7 +215,7 @@ class Session
     public static function destroy($destoryCookie = true)
     {
         if ($destoryCookie == true) {
-            \setcookie(\session_id(),"",\time() - 3600);
+            \setcookie(\session_id(),'',\time() - 3600);
         }       
         \session_destroy();
     }
@@ -259,6 +259,6 @@ class Session
      * @return boolean
      */
     public static function isUseCookies() {
-        return \ini_get("session.use_cookies");
+        return \ini_get('session.use_cookies');
     }
 }

@@ -64,7 +64,7 @@ class Request
     {
         $content = Self::getContentType($request);
 
-        return (\substr($content,-3) == 'xml') ? true : false;
+        return (\substr($content,-3) == 'xml');
     }
 
     /**
@@ -77,7 +77,7 @@ class Request
     {
         $content = Self::getContentType($request);
 
-        return (\substr($content,-4) == 'html') ? true : false;
+        return (\substr($content,-4) == 'html');
     }
 
     /**
@@ -137,7 +137,7 @@ class Request
      */
     public static function getBrowserName()
     {      
-        $userAgent =  " " . \strtolower($_SERVER['HTTP_USER_AGENT']);
+        $userAgent =  ' ' . \strtolower($_SERVER['HTTP_USER_AGENT']);
         
         switch ($userAgent) {
             case (\strpos($userAgent,'opera') != false):

@@ -31,7 +31,7 @@ class Cookie
             return $response->withAddedHeader('Set-Cookie', $cookie);          
         } 
         
-        return \setcookie($name,'',\time() - 100,"/",$domain);        
+        return \setcookie($name,'',\time() - 100,'/',$domain);        
     }
 
     /**
@@ -55,7 +55,7 @@ class Cookie
             return $response;
         } 
     
-        return setcookie($name,$value,$expires,"/",$domain);        
+        return setcookie($name,$value,$expires,'/',$domain);        
     }
 
     /**

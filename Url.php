@@ -74,7 +74,7 @@ class Url
      */
     public static function getTemplateThemeUrl($template, $theme)
     {
-        return Self::getTemplateThemesUrl($template) . "/$theme/";
+        return Self::getTemplateThemesUrl($template) . '/' . $theme . '/';
     }
 
     /**
@@ -86,7 +86,7 @@ class Url
      */
     public static function getTemplateUrl($template, $path = '') 
     {       
-        return Self::TEMPLATES_URL . "/$template" . $path;       
+        return Self::TEMPLATES_URL . '/' . $template . $path;       
     }
 
     /**
@@ -97,20 +97,9 @@ class Url
      */
     public static function getTemplateThemesUrl($template)
     {
-        return Self::getTemplateUrl($template) . "/themes";
+        return Self::getTemplateUrl($template) . '/themes';
     }
     
-    /**
-     * Get UI library themes url
-     *
-     * @param string $library
-     * @return string
-     */
-    public static function getLibraryThemesUrl($library)
-    {
-        return Self::getLibraryUrl($library) . "/themes";
-    }
-
     /**
      * Get UI library theme url
      *
@@ -120,7 +109,7 @@ class Url
      */
     public static function getLibraryThemeUrl($library, $theme)
     {
-        return Self::getLibraryUrl($library) . "/themes/$theme/";
+        return Self::getLibraryUrl($library) . '/themes/' . $theme . '/';
     }
 
     /**
@@ -144,7 +133,7 @@ class Url
      */
     public static function getLibraryUrl($library)
     {
-        return Self::LIBRARY_URL . "/$library";
+        return Self::LIBRARY_URL . '/' . $library;
     }
 
     /**
@@ -156,7 +145,7 @@ class Url
      */
     public static function getLibraryFileUrl($library, $fileName = '')
     {
-        return Self::getLibraryUrl($library) . "/$fileName";
+        return Self::getLibraryUrl($library) . '/' . $fileName;
     }
 
     /**
@@ -168,7 +157,7 @@ class Url
      */
     public static function getExtensionViewUrl($extension, $path = '')
     {
-        return Self::EXTENSIONS_URL . "/$extension/view" . $path;
+        return Self::EXTENSIONS_URL . '/' . $extension . '/view' . $path;
     }
 
     /**

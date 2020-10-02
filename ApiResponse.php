@@ -72,7 +72,7 @@ class ApiResponse
         $this->errors = [];
         $this->debug = ($debug == true) ? true : false;
         $this->result['result'] = null;
-        $this->result['status'] = "ok";  
+        $this->result['status'] = 'ok';  
         $this->result['code'] = 200; 
         $this->result['errors'] = $this->errors;  
         $this->prettyFormat = false; 
@@ -276,7 +276,7 @@ class ApiResponse
         $this->result['errors'] = $this->errors;
         $this->result['executeion_time'] = Utils::getExecutionTime();
         if ($this->hasError() == true) {
-            $this->result['status'] = "error"; 
+            $this->result['status'] = 'error'; 
             $this->result['code'] = 400;
         }
         

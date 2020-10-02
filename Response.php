@@ -27,7 +27,7 @@ class Response
      */
     public static function create($code = 200, $reasonPhrase = '')
     {
-        return new GuzzleResponse($code, [], null, '1.1', $reasonPhrase);
+        return new GuzzleResponse($code,[],null,'1.1',$reasonPhrase);
     }
 
     /**
