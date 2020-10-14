@@ -34,13 +34,6 @@ class ApiResponse
     protected $errors; 
 
     /**
-     * Denug mode
-     *
-     * @var bool
-     */
-    protected $debug;
-
-    /**
      * pretty format json 
      *
      * @var bool
@@ -64,13 +57,11 @@ class ApiResponse
     /**
      * Constructor
      *
-     * @param boolean $debug
-     * @param Response|null $response
+     * @param ResponseInterface|null $response
      */
-    public function __construct($debug = false, $response = null) 
+    public function __construct($response = null) 
     {                    
         $this->errors = [];
-        $this->debug = ($debug == true) ? true : false;
         $this->result['result'] = null;
         $this->result['status'] = 'ok';  
         $this->result['code'] = 200; 
@@ -247,7 +238,7 @@ class ApiResponse
      */
     public function hasError() 
     {    
-        return ($this->getErrorCount() > 0) ? true : false;          
+        return (count($this->errors) > 0) ? true : false;          
     }
 
     /**
@@ -278,10 +269,6 @@ class ApiResponse
         if ($this->hasError() == true) {
             $this->result['status'] = 'error'; 
             $this->result['code'] = 400;
-        }
-        
-        if ($this->debug == true) {
-            $this->result['memory_usage'] = Utils::getMemorySizeText(memory_get_usage(true));
         }
         $result = ($this->raw == true) ? $this->result['result'] : $this->result;
     
