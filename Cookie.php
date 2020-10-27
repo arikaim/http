@@ -42,15 +42,22 @@ class Cookie
      * @param Psr\Http\Message\ResponseInterface|null $response
      * @param integer $expire Minutes
      * @param string $domain
+     * @param string|null $sameSite
      * @return Psr\Http\Message\ResponseInterface|boolean
      */
-    public static function add($name, $value, $response = null, $expire = 360, $domain = '')
+    public static function add($name, $value, $response = null, $expire = 360, $domain = '', $sameSite = null)
     {             
         $expires = \time() + ($expire * 60);     
 
         if (\is_object($response) == true) {
-            $cookie = \urlencode($name) . '=' . \urlencode($value) . '; ' . Self::getExpireParam($expire) . '; ' . Self::getAgeParam($expire) . '; path=/; secure; httponly';
-            $response = $response->withAddedHeader('Set-Cookie', $cookie);
+            $cookie = \urlencode($name) . '=' . \urlencode($value) . '; ' . 
+                Self::getExpireParam($expire) . 
+                '; ' . Self::getAgeParam($expire) . 
+                '; path=/; secure; httponly';
+            if (empty($sameSite) == false) {
+                $cookie .= '; samesite=' . $sameSite;
+            }                    
+            $response = $response->withAddedHeader('Set-Cookie',$cookie);
             
             return $response;
         } 
@@ -70,7 +77,7 @@ class Cookie
     {
         $cookies = \is_object($request) ? $request->getCookieParams() : $_COOKIE;
 
-        return isset($cookies[$name]) ? $cookies[$name] : $default;
+        return $cookies[$name] ?? $default;
     }
 
     /**

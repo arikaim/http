@@ -21,7 +21,7 @@ class Session
      *
      * @var integer
      */
-    private static $defaultLifetime = 36000;
+    private static $defaultLifetime = 360000;
 
     /**
      * Start session
@@ -31,16 +31,21 @@ class Session
      */
     public static function start($lifetime = null) 
     {
-        $lifetime = ($lifetime == null) ? Self::$defaultLifetime : $lifetime;          
+        $lifetime = $lifetime ?? Self::$defaultLifetime;      
         Self::setLifetime($lifetime);
 
-        if (Self::isStarted() == false) {
+        if (Self::isStarted() == false) {           
+            // same site cookie params           
+            $params = \session_get_cookie_params();          
+            $params['lifetime'] = $lifetime;
+            \session_set_cookie_params($params);
+           
             \session_start();
             $startTime = Self::getStartTime();
-            $startTime = (empty($startTime) == true) ? \time() : $startTime;
+            $startTime = $startTime ?? \time();
             Self::set('time_start',$startTime);  
             Self::set('lifetime',$lifetime);          
-        }
+        } 
 
         if (Self::isActive() == false) {
             \session_cache_limiter(false);  
@@ -54,7 +59,7 @@ class Session
      */
     public static function isStarted()
     {
-        return !(\session_status() == PHP_SESSION_NONE);
+        return !(\session_status() !== PHP_SESSION_ACTIVE);
     }
 
     /**
@@ -138,9 +143,7 @@ class Session
      */
     public static function getId() 
     {
-        $id = \session_id();
-
-        return $id;  
+        return \session_id();      
     }
     
     /**
@@ -181,7 +184,7 @@ class Session
      */
     public static function get($name, $default = null)
     {
-        return (isset($_SESSION[$name]) == true) ? $_SESSION[$name] : $default;
+        return $_SESSION[$name] ?? $default;
     }
     
     /**

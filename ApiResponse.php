@@ -90,10 +90,7 @@ class ApiResponse
      * @return void
      */
     public function addErrors(array $errors)
-    {
-        if (\is_array($errors) == false) {
-            return false;
-        }
+    {      
         $this->errors = \array_merge($this->errors,$errors);       
     }
 
@@ -238,7 +235,7 @@ class ApiResponse
      */
     public function hasError() 
     {    
-        return (count($this->errors) > 0) ? true : false;          
+        return (count($this->errors) > 0);         
     }
 
     /**

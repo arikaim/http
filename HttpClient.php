@@ -32,7 +32,7 @@ class HttpClient implements HttpClientInterface
      */
     public function __construct(HttpClientAdapterInterface $adapter = null)
     {
-        $this->adapter = (empty($adapter) == true) ? new GuzzleClientAdapter() : $adapter; 
+        $this->adapter = $adapter ?? new GuzzleClientAdapter();
     }
 
     /**

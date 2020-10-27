@@ -168,6 +168,6 @@ class Url
      */
     public static function isValid($url)
     {
-        return (\filter_var($url,FILTER_VALIDATE_URL) == true) ? true : false; 
+        return (\filter_var($url,FILTER_VALIDATE_URL) == true);
     }
 }

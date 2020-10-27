@@ -32,7 +32,7 @@ class Request
             }
         }
 
-        return (empty($content) == true) ? $default : $content;
+        return $content ?? $default;
     }
 
     /**
@@ -137,7 +137,7 @@ class Request
      */
     public static function getBrowserName()
     {      
-        $userAgent =  ' ' . \strtolower($_SERVER['HTTP_USER_AGENT']);
+        $userAgent = ' ' . \strtolower($_SERVER['HTTP_USER_AGENT']);
         
         switch ($userAgent) {
             case (\strpos($userAgent,'opera') != false):
