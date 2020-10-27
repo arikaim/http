@@ -35,10 +35,8 @@ class Session
         Self::setLifetime($lifetime);
 
         if (Self::isStarted() == false) {           
-            // same site cookie params           
-            $params = \session_get_cookie_params();          
-            $params['lifetime'] = $lifetime;
-            \session_set_cookie_params($params);
+            // same site cookie params                                
+            \session_set_cookie_params($lifetime);
            
             \session_start();
             $startTime = Self::getStartTime();
