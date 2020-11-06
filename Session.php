@@ -36,7 +36,7 @@ class Session
 
         if (Self::isStarted() == false) {           
             // same site cookie params                                
-            \session_set_cookie_params($lifetime,'/;SameSite=Lax');
+            \session_set_cookie_params($lifetime,'/; SameSite=Lax');
            
             \session_start();
             $startTime = Self::getStartTime();
@@ -119,7 +119,7 @@ class Session
     {
         \ini_set('session.cookie_lifetime',$time);
         \ini_set('session.gc_maxlifetime',$time);
-        \session_set_cookie_params($time);
+        \session_set_cookie_params($time,'/; SameSite=Lax');
     }
 
     /**
@@ -169,7 +169,7 @@ class Session
      * @return void
      */
     public static function set($name, $value) 
-    {
+    {        
         $_SESSION[$name] = $value;
     }
     
