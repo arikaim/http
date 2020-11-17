@@ -26,7 +26,11 @@ class Cookie
     */
     public static function delete($name, $response = null, $domain = '')
     {        
-        $cookie = \urlencode($name) . '=' . \urlencode('false') . '; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; secure; httponly';
+        if (isset($_COOKIE[$name])) {
+            unset($_COOKIE[$name]);
+        }
+
+        $cookie = \urlencode($name) . '=' . \urlencode('false') . '; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/; secure; SameSite=Lax';
         if (\is_object($response) == true) {
             return $response->withAddedHeader('Set-Cookie', $cookie);          
         } 
@@ -48,21 +52,20 @@ class Cookie
     public static function add($name, $value, $response = null, $expire = 360, $domain = '', $sameSite = null)
     {             
         $expires = \time() + ($expire * 60);     
+        $sameSite = $sameSite ?? 'Lax';
 
         if (\is_object($response) == true) {
             $cookie = \urlencode($name) . '=' . \urlencode($value) . '; ' . 
                 Self::getExpireParam($expire) . 
                 '; ' . Self::getAgeParam($expire) . 
-                '; path=/; secure; httponly';
-            if (empty($sameSite) == false) {
-                $cookie .= '; samesite=' . $sameSite;
-            }                    
+                '; path=/; secure; httponly ; SameSite=' . $sameSite;
+                            
             $response = $response->withAddedHeader('Set-Cookie',$cookie);
             
             return $response;
         } 
     
-        return setcookie($name,$value,$expires,'/',$domain);        
+        return setcookie($name,$value,$expires,'/; SameSite=' . $sameSite,$domain);        
     }
 
     /**

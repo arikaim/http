@@ -37,7 +37,7 @@ class Session
         if (Self::isStarted() == false) {           
             // same site cookie params                                
             \session_set_cookie_params($lifetime,'/; SameSite=Lax');
-           
+            // start
             \session_start();
             $startTime = Self::getStartTime();
             $startTime = $startTime ?? \time();
@@ -46,7 +46,7 @@ class Session
         } 
 
         if (Self::isActive() == false) {
-            \session_cache_limiter(false);  
+            \session_cache_limiter('nocache');  
         }      
     }
 
