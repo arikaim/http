@@ -22,6 +22,22 @@ class Url
     const COMPONENTS_URL   = Self::VIEW_URL . '/components';
   
     /**
+     * Return true if url is remote server
+     *
+     * @param string $url
+     * @return boolean
+     */
+    public static function isRemote($url)
+    {
+        if (Self::isValid($url) == false) {
+            return false;
+        }
+        $info = \parse_url($url);
+
+        return ($info['hostname'] != DOMAIN);
+    }
+
+    /**
      * Init domain and base path constants
      *
      * @param string $domain
