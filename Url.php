@@ -22,6 +22,21 @@ class Url
     const COMPONENTS_URL   = Self::VIEW_URL . '/components';
   
     /**
+     * Get url query param value
+     *
+     * @param string $url
+     * @param string $paramName
+     * @return string|null
+     */
+    public static function getUrlParam($url, $paramName)
+    {
+        $parts = \parse_url($url);
+        \parse_str($parts['query'],$query);
+
+        return $query[$paramName] ?? null;
+    }
+
+    /**
      * Return true if url is remote server
      *
      * @param string $url
