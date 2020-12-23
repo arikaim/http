@@ -22,6 +22,17 @@ class Url
     const COMPONENTS_URL   = Self::VIEW_URL . '/components';
   
     /**
+     * Retrun true if url is relative
+     *
+     * @param string $url
+     * @return boolean
+     */
+    public static function isRelative($url)
+    {
+        return (\strpos($url,DOMAIN) === false);
+    }
+
+    /**
      * Get url query param value
      *
      * @param string $url
@@ -172,11 +183,14 @@ class Url
      *
      * @param string $library
      * @param string|null $fileName
+     * @param array|null $params
      * @return string
      */
-    public static function getLibraryFileUrl($library, $fileName = '')
+    public static function getLibraryFileUrl($library, $fileName = '', $params = null)
     {
-        return Self::getLibraryUrl($library) . '/' . $fileName;
+        $paramsText = (empty($params) == false) ? '?' . \http_build_query($params) : '';
+
+        return Self::getLibraryUrl($library) . '/' . $fileName . $paramsText;
     }
 
     /**
