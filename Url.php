@@ -22,6 +22,41 @@ class Url
     const COMPONENTS_URL   = Self::VIEW_URL . '/components';
   
     /**
+     * Return url link with current language code
+     *
+     * @param string $path
+     * @param boolean $relative
+     * @param string|null $language
+     * @param string|null $defaultLanguage
+     * @return string
+     */
+    public static function getUrl($path = '', $relative = false, $language = null, $defaultLanguage = null)
+    {       
+        $defaultLanguage = $defaultLanguage ?? $language;
+        $path = (\substr($path,0,1) == '/') ? \substr($path,1) : $path;      
+        $url = ($relative == false) ? Url::BASE_URL : BASE_PATH;        
+        $url = ($url == '/') ? $url : $url . '/';   
+        $url .= $path;       
+        if (empty($language) == true) {
+            return $url;
+        }
+        
+        return ($defaultLanguage != $language) ? Self::getLanguagePath($url,$language) : $url;
+    }
+
+    /**
+     * Get language path
+     *
+     * @param string $path
+     * @param string $language
+     * @return string
+     */
+    public static function getLanguagePath($path, $language)
+    {   
+        return (\substr($path,-1) == '/') ? $path . $language . '/' : $path . '/' . $language . '/';
+    }
+
+    /**
      * Retrun true if url is relative
      *
      * @param string $url
