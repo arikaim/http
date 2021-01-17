@@ -18,18 +18,17 @@ class Request
      * Return content type 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param string $default
-     * @return void
+     * @param string|null $default
+     * @return mixed
      */
-    public static function getContentType($request, $default = 'text/html')
+    public static function getContentType($request, ?string $default = 'text/html')
     {        
         $content = $request->getHeaderLine('Content-Type');
         if (empty($content) == true) {
             $accept = $request->getHeaderLine('Accept');
             $tokens = \explode(',',$accept);
-            if (empty($tokens[0]) == false) {
-                return $tokens[0];
-            }
+          
+            return $tokens[0] ?? null;           
         }
 
         return $content ?? $default;
@@ -41,7 +40,7 @@ class Request
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return boolean
      */
-    public static function isJsonContentType($request)
+    public static function isJsonContentType($request): bool
     {
         // try with content type
         $header = Self::getContentType($request);             
@@ -60,7 +59,7 @@ class Request
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return boolean
      */
-    public static function isXmlContentType($request)
+    public static function isXmlContentType($request): bool
     {
         $content = Self::getContentType($request);
 
@@ -73,7 +72,7 @@ class Request
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return boolean
      */
-    public static function isHtmlContentType($request)
+    public static function isHtmlContentType($request): bool
     {
         $content = Self::getContentType($request);
 
@@ -91,7 +90,7 @@ class Request
         $accept = $request->getHeaderLine('Accept');
         $parts = \explode(';',$accept);
 
-        return \explode(',',$parts[0]);
+        return \explode(',',$parts[0] ?? '');
     }
 
     /**
@@ -100,7 +99,7 @@ class Request
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return boolean
      */
-    public static function acceptJson($request)
+    public static function acceptJson($request): bool
     {
         $contentTypes = Self::parseAcceptHeader($request);
         foreach ($contentTypes as $item) {
@@ -118,7 +117,7 @@ class Request
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return boolean
      */
-    public static function acceptXml($request)
+    public static function acceptXml($request): bool
     {
         $contentTypes = Self::parseAcceptHeader($request);
         foreach ($contentTypes as $item) {
@@ -133,9 +132,9 @@ class Request
     /**
      * Get browser name
      *
-     * @return string
+     * @return string|null
      */
-    public static function getBrowserName()
+    public static function getBrowserName(): ?string
     {      
         $userAgent = ' ' . \strtolower($_SERVER['HTTP_USER_AGENT']);
         

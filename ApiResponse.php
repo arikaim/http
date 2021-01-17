@@ -89,7 +89,7 @@ class ApiResponse
      * @param array $errors
      * @return void
      */
-    public function addErrors(array $errors)
+    public function addErrors(array $errors): void
     {      
         $this->errors = \array_merge($this->errors,$errors);       
     }
@@ -100,7 +100,7 @@ class ApiResponse
      * @param array $errors
      * @return void
      */
-    public function setErrors(array $errors)
+    public function setErrors(array $errors): void
     {
         $this->errors = $errors;
     }

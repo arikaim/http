@@ -25,7 +25,7 @@ class Response
      * @param string $reasonPhrase
      * @return ResponseInterface
      */
-    public static function create($code = 200, $reasonPhrase = '')
+    public static function create($code = 200, ?string $reasonPhrase = '')
     {
         return new GuzzleResponse($code,[],null,'1.1',$reasonPhrase);
     }
@@ -34,9 +34,9 @@ class Response
      * Emit reponse
      *
      * @param ResponseInterface $response
-     * @return string
+     * @return void
      */
-    public static function emit(ResponseInterface $response)
+    public static function emit(ResponseInterface $response): void
     {
         $responseEmitter = new ResponseEmitter();
         $responseEmitter->emit($response);

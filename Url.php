@@ -30,7 +30,7 @@ class Url
      * @param string|null $defaultLanguage
      * @return string
      */
-    public static function getUrl($path = '', $relative = false, $language = null, $defaultLanguage = null)
+    public static function getUrl(?string $path = '', bool $relative = false, ?string $language = null, ?string $defaultLanguage = null): string
     {       
         $defaultLanguage = $defaultLanguage ?? $language;
         $path = (\substr($path,0,1) == '/') ? \substr($path,1) : $path;      
@@ -51,7 +51,7 @@ class Url
      * @param string $language
      * @return string
      */
-    public static function getLanguagePath($path, $language)
+    public static function getLanguagePath(string $path, string $language): string
     {   
         return (\substr($path,-1) == '/') ? $path . $language . '/' : $path . '/' . $language . '/';
     }
@@ -62,7 +62,7 @@ class Url
      * @param string $url
      * @return boolean
      */
-    public static function isRelative($url)
+    public static function isRelative(?string $url): bool
     {
         return (\strpos($url,DOMAIN) === false);
     }
@@ -70,11 +70,11 @@ class Url
     /**
      * Get url query param value
      *
-     * @param string $url
+     * @param string|null $url
      * @param string $paramName
      * @return string|null
      */
-    public static function getUrlParam($url, $paramName)
+    public static function getUrlParam(?string $url, string $paramName): ?string
     {
         $parts = \parse_url($url);
         \parse_str($parts['query'],$query);
@@ -88,7 +88,7 @@ class Url
      * @param string $url
      * @return boolean
      */
-    public static function isRemote($url)
+    public static function isRemote(string $url): bool
     {
         if (Self::isValid($url) == false) {
             return false;
@@ -105,7 +105,7 @@ class Url
      * @param string $basePath
      * @return void
      */
-    public static function init($domain,$basePath)
+    public static function init(string $domain, ?string $basePath): void
     {
         if (\defined('DOMAIN') == false) {
             \define('DOMAIN',$domain);
@@ -122,7 +122,7 @@ class Url
      * @param string $path
      * @return void
      */
-    public static function setAppUrl($path) 
+    public static function setAppUrl(string $path): void 
     {
         if (\defined('APP_URL') == false) {
             \define('APP_URL',Self::BASE_URL . $path);
@@ -134,10 +134,10 @@ class Url
      *
      * @param string $template
      * @param string $theme
-     * @param string $themeFile
-     * @return string
+     * @param string|null $themeFile
+     * @return string|null
      */
-    public static function getThemeFileUrl($template, $theme, $themeFile)
+    public static function getThemeFileUrl(string $template, string $theme, ?string $themeFile): ?string
     {
         return (empty($themeFile) == true) ? null : Self::getTemplateThemeUrl($template,$theme) . $themeFile;       
     }
@@ -149,7 +149,7 @@ class Url
      * @param string $theme
      * @return string
      */
-    public static function getTemplateThemeUrl($template, $theme)
+    public static function getTemplateThemeUrl(string $template, string $theme): string
     {
         return Self::getTemplateThemesUrl($template) . '/' . $theme . '/';
     }
@@ -161,7 +161,7 @@ class Url
      * @param string $path
      * @return string
      */
-    public static function getTemplateUrl($template, $path = '') 
+    public static function getTemplateUrl(string $template, string $path = ''): string 
     {       
         return Self::TEMPLATES_URL . '/' . $template . $path;       
     }
@@ -172,7 +172,7 @@ class Url
      * @param string $template
      * @return string
      */
-    public static function getTemplateThemesUrl($template)
+    public static function getTemplateThemesUrl(string $template): string
     {
         return Self::getTemplateUrl($template) . '/themes';
     }
@@ -184,7 +184,7 @@ class Url
      * @param string $theme
      * @return string
      */
-    public static function getLibraryThemeUrl($library, $theme)
+    public static function getLibraryThemeUrl(string $library, string $theme): string
     {
         return Self::getLibraryUrl($library) . '/themes/' . $theme . '/';
     }
@@ -197,7 +197,7 @@ class Url
      * @param string $theme
      * @return string
      */
-    public static function getLibraryThemeFileUrl($library, $file, $theme)
+    public static function getLibraryThemeFileUrl(string $library, string $file, string $theme): string
     {
         return Self::getLibraryThemeUrl($library,$theme) . $file;
     }
@@ -208,7 +208,7 @@ class Url
      * @param string $library
      * @return string
      */
-    public static function getLibraryUrl($library)
+    public static function getLibraryUrl(string $library): string
     {
         return Self::LIBRARY_URL . '/' . $library;
     }
@@ -221,7 +221,7 @@ class Url
      * @param array|null $params
      * @return string
      */
-    public static function getLibraryFileUrl($library, $fileName = '', $params = null)
+    public static function getLibraryFileUrl(string $library, string $fileName = '', ?array $params = null): string
     {
         $paramsText = (empty($params) == false) ? '?' . \http_build_query($params) : '';
 
@@ -235,7 +235,7 @@ class Url
      * @param string $path
      * @return string
      */
-    public static function getExtensionViewUrl($extension, $path = '')
+    public static function getExtensionViewUrl(string $extension, string $path = ''): string
     {
         return Self::EXTENSIONS_URL . '/' . $extension . '/view' . $path;
     }
@@ -246,7 +246,7 @@ class Url
      * @param string $url
      * @return boolean
      */
-    public static function isValid($url)
+    public static function isValid(string $url): bool
     {
         return (\filter_var($url,FILTER_VALIDATE_URL) == true);
     }

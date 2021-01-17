@@ -76,7 +76,7 @@ class Cookie
      * @param mixed $default
      * @return mixed
      */
-    public static function get($name, $request = null, $default = null)
+    public static function get(string $name, $request = null, $default = null)
     {
         $cookies = \is_object($request) ? $request->getCookieParams() : $_COOKIE;
 
@@ -89,7 +89,7 @@ class Cookie
      * @param integer $minutes
      * @return string
      */
-    protected static function getAgeParam($minutes)
+    protected static function getAgeParam($minutes): string
     {
         return 'Max-Age=' . ($minutes * 60);
     }
@@ -98,9 +98,9 @@ class Cookie
      * Get expires cookie param
      *
      * @param integer $minutes
-     * @return void
+     * @return string
      */
-    protected static function getExpireParam($minutes)
+    protected static function getExpireParam($minutes): string
     {
         $expire = new DateTimeImmutable('now + ' . $minutes . 'minutes');
 

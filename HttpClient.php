@@ -12,7 +12,6 @@ namespace Arikaim\Core\Http;
 use Arikaim\Core\Interfaces\HttpClientInterface;
 use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
 use Arikaim\Core\Http\GuzzleClientAdapter;
-use Arikaim\Core\Utils\Utils;
 
 /**
  * Http client 
@@ -30,9 +29,23 @@ class HttpClient implements HttpClientInterface
      * Constructor
      *
      */
-    public function __construct(HttpClientAdapterInterface $adapter = null)
+    public function __construct(?HttpClientAdapterInterface $adapter = null)
     {
         $this->adapter = $adapter ?? new GuzzleClientAdapter();
+    }
+
+    /**
+     * Create and send an http request.
+     *
+     * @param string $method
+     * @param string|UriInterface $uri     URI object or string.
+     * @param array               $options Request options to apply.
+     *
+     * @return ResponseInterface
+    */
+    public function request(string $method, $uri, array $options = [])
+    {
+        return $this->adapter->request($method,$uri,$options);
     }
 
     /**
@@ -48,15 +61,12 @@ class HttpClient implements HttpClientInterface
     /**
      * Fetch url
      *
-     * @param string $url
+     * @param string|UriInterface $url
      * @param array $options
      * @return Response|null
      */
-    public function fetch($url, $options = [])
-    {
-        if (Utils::isValidUrl($url) == false) {
-            return null;
-        }
+    public function fetch($url, array $options = [])
+    {       
         $response = $this->adapter->request('GET',$url,$options);
 
         return (\is_object($response) == true) ? $response->getBody() : null;
@@ -65,8 +75,8 @@ class HttpClient implements HttpClientInterface
     /**
      * Create and send an GET request.
      *
-     * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply. 
+     * @param string|UriInterface $uri URI object or string.
+     * @param array $options Request options to apply. 
      *
      * @return ResponseInterface
      */
@@ -79,7 +89,7 @@ class HttpClient implements HttpClientInterface
      * Create and send an HEAD request.
      *
      * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply.
+     * @param array $options Request options to apply.
      *
      * @return ResponseInterface
     */

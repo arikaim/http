@@ -55,7 +55,7 @@ class Session
      *
      * @return boolean
      */
-    public static function isStarted()
+    public static function isStarted(): bool
     {
         return !(\session_status() !== PHP_SESSION_ACTIVE);
     }
@@ -65,7 +65,7 @@ class Session
      *
      * @return boolean
      */
-    public static function isActive() 
+    public static function isActive(): bool 
     {
         return (\session_status() == PHP_SESSION_ACTIVE);
     }
@@ -76,7 +76,7 @@ class Session
      * @param integer $lifetime
      * @return bool
      */
-    public static function recrete($lifetime = null) 
+    public static function recrete($lifetime = null): bool 
     {
         $session = Self::toArray();
         Self::start($lifetime);
@@ -168,7 +168,7 @@ class Session
      * @param mixed $value
      * @return void
      */
-    public static function set($name, $value) 
+    public static function set(string $name, $value): void 
     {        
         $_SESSION[$name] = $value;
     }
@@ -180,7 +180,7 @@ class Session
      * @param mixed $default
      * @return mixed
      */
-    public static function get($name, $default = null)
+    public static function get(string $name, $default = null)
     {
         return $_SESSION[$name] ?? $default;
     }
@@ -191,7 +191,7 @@ class Session
      * @param string $path
      * @return mixed
      */
-    public static function getValue($path)
+    public static function getValue(string $path)
     {
         return Arrays::getValue($_SESSION,$path);        
     }
@@ -202,7 +202,7 @@ class Session
      * @param string $name
      * @return void
      */
-    public static function remove($name) 
+    public static function remove(string $name): void 
     {
         unset($_SESSION[$name]);
     }
@@ -213,7 +213,7 @@ class Session
      * @param boolean $destoryCookie
      * @return void
      */
-    public static function destroy($destoryCookie = true)
+    public static function destroy(bool $destoryCookie = true): void
     {
         if ($destoryCookie == true) {
             \setcookie(\session_id(),'',\time() - 3600);
@@ -227,7 +227,7 @@ class Session
      * @param integer|null $lifetime
      * @return void
      */
-    public static function restart($lifetime = null)
+    public static function restart($lifetime = null): void
     {
         \session_unset();      
         Self::destroy();
@@ -249,7 +249,7 @@ class Session
      *
      * @return array
      */
-    public static function toArray()
+    public static function toArray(): array
     {
         return (\is_array($_SESSION) == true) ? $_SESSION : [];          
     }
@@ -259,7 +259,8 @@ class Session
      *
      * @return boolean
      */
-    public static function isUseCookies() {
-        return \ini_get('session.use_cookies');
+    public static function isUseCookies(): bool 
+    {
+        return (bool)\ini_get('session.use_cookies');
     }
 }
