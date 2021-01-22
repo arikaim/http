@@ -11,6 +11,7 @@ namespace Arikaim\Core\Http;
 
 use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 
 /**
  * Http client 
@@ -44,6 +45,13 @@ class GuzzleClientAdapter implements HttpClientAdapterInterface
     */
     public function request($method, $uri, array $options = [])
     {
-        return $this->client->request($method,$uri,$options);
+        try {
+            $response = $this->client->request($method,$uri,$options);
+        }
+        catch (BadResponseException $e) {
+            $response = $e->getResponse();           
+        }
+
+        return $response;
     }
 }

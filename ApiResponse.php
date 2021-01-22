@@ -59,16 +59,18 @@ class ApiResponse
      *
      * @param ResponseInterface|null $response
      */
-    public function __construct($response = null) 
+    public function __construct(?ResponseInterface $response = null) 
     {                    
         $this->errors = [];
-        $this->result['result'] = null;
-        $this->result['status'] = 'ok';  
-        $this->result['code'] = 200; 
-        $this->result['errors'] = $this->errors;  
+        $this->result = [
+            'result' => null,
+            'status' => 'ok',
+            'code'   => 200,
+            'errors' => $this->errors
+        ];
         $this->prettyFormat = false; 
         $this->raw = false; 
-        $this->response = $response;
+        $this->setClientResponse($response);
     }
 
     /**
@@ -110,7 +112,7 @@ class ApiResponse
      *
      * @return void
     */
-    public function clearErrors()
+    public function clearErrors(): void
     {
         $this->errors = [];
     }
@@ -122,7 +124,7 @@ class ApiResponse
      * @param boolean $condition
      * @return void
      */
-    public function setError($errorMessage, $condition = true) 
+    public function setError(string $errorMessage, bool $condition = true): void 
     {
         if ($condition !== false) {
             \array_push($this->errors,$errorMessage);  
@@ -136,7 +138,7 @@ class ApiResponse
      * @param boolean $condition
      * @return ApiResponse
      */
-    public function withError($errorMessage, $condition = true) 
+    public function withError(string $errorMessage, bool $condition = true) 
     {
         $this->setError($errorMessage,$condition);
 
@@ -157,14 +159,24 @@ class ApiResponse
     }
 
     /**
+     * Get result
+     *
+     * @return mixed
+     */
+    public function getResult() 
+    {
+        return $this->result['result'] ?? null;
+    }
+
+    /**
      * Set response 
      *
      * @param boolean $condition
-     * @param array|Closure $data
+     * @param array|string|Closure $data
      * @param string|Closure $error
      * @return mixed
      */
-    public function setResponse($condition, $data, $error)
+    public function setResponse(bool $condition, $data, $error)
     {
         if ($condition !== false) {
             if (\is_callable($data) == true) {
@@ -187,7 +199,7 @@ class ApiResponse
      * @param string $message
      * @return ApiResponse
      */
-    public function message($message)
+    public function message(string $message)
     {
         return $this->field('message',$message);       
     }
@@ -199,7 +211,7 @@ class ApiResponse
      * @param mixed $value
      * @return void
      */
-    public function setResultField($name, $value)
+    public function setResultField(string $name, $value): void
     {      
         $this->result['result'][$name] = $value;
     }
@@ -211,7 +223,7 @@ class ApiResponse
      * @param mixed $value
      * @return ApiResponse
      */
-    public function field($name, $value)
+    public function field(string $name, $value)
     {
         $this->setResultField($name,$value);
 
@@ -219,13 +231,25 @@ class ApiResponse
     }
 
     /**
+     * Get field
+     *
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getField(string $name, $default = null)
+    {
+        return $this->result['result'][$name] ?? $default;
+    }
+
+    /**
      * Return errors count
      *
      * @return int
      */
-    public function getErrorCount()
+    public function getErrorCount(): int
     {
-        return count($this->errors);
+        return \count($this->errors);
     }
 
     /**
@@ -233,7 +257,7 @@ class ApiResponse
      *
      * @return boolean
      */
-    public function hasError() 
+    public function hasError(): bool 
     {    
         return (count($this->errors) > 0);         
     }
@@ -245,7 +269,7 @@ class ApiResponse
      *  
      * @return ResponseInterface
      */
-    public function getResponse($raw = false) 
+    public function getResponse(bool $raw = false) 
     {           
         $this->raw = $raw;
         $json = $this->getResponseJson();
@@ -259,16 +283,35 @@ class ApiResponse
      *
      * @return string
      */
-    public function getResponseJson()
+    public function getResponseJson(): string
     {
-        $this->result['errors'] = $this->errors;
-        $this->result['executeion_time'] = Utils::getExecutionTime();
-        if ($this->hasError() == true) {
-            $this->result['status'] = 'error'; 
-            $this->result['code'] = 400;
-        }
+        $this->result = \array_merge($this->result,[
+            'errors'          => $this->errors,
+            'executeion_time' => Utils::getExecutionTime(),
+            'status'          => ($this->hasError() == true) ? 'error' : 'ok',
+            'code'            => ($this->hasError() == true) ? 400 : 200           
+        ]);
         $result = ($this->raw == true) ? $this->result['result'] : $this->result;
     
         return ($this->prettyFormat == true) ? Utils::jsonEncode($result) : \json_encode($result,true);      
     }    
+
+    /**
+     * Set client response
+     *
+     * @param ResponseInterface|null $response
+     * @return void
+     */
+    public function setClientResponse(?ResponseInterface $response = null): void
+    {
+        $this->response = $response;
+        if (empty($response) == false) {
+            $code = $response->getStatusCode(); // 200 - ok
+            $json = $this->response->getBody()->getContents();
+            $data = \json_decode($json,true);
+
+            $this->errors = $data['errors'] ?? [];         
+            $this->result['result'] = $data['result'] ?? [];               
+        }
+    }
 }

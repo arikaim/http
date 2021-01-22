@@ -38,8 +38,8 @@ class HttpClient implements HttpClientInterface
      * Create and send an http request.
      *
      * @param string $method
-     * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply.
+     * @param string|UriInterface $uri URI object or string.
+     * @param array $options Request options to apply.
      *
      * @return ResponseInterface
     */
