@@ -14,12 +14,13 @@ namespace Arikaim\Core\Http;
  */
 class Url
 {   
-    const BASE_URL         = DOMAIN . BASE_PATH;  
-    const VIEW_URL         = APP_URL . '/view';
-    const EXTENSIONS_URL   = APP_URL . '/extensions';
-    const LIBRARY_URL      = Self::VIEW_URL . '/library';
-    const TEMPLATES_URL    = Self::VIEW_URL . '/templates';
-    const COMPONENTS_URL   = Self::VIEW_URL . '/components';
+    const RELATIVE_APP_URL  = BASE_PATH . '/arikaim';
+    const BASE_URL          = DOMAIN . BASE_PATH;  
+    const VIEW_URL          = Self::RELATIVE_APP_URL . '/view';
+    const EXTENSIONS_URL    = Self::RELATIVE_APP_URL . '/extensions';
+    const LIBRARY_URL       = Self::VIEW_URL . '/library';
+    const TEMPLATES_URL     = Self::VIEW_URL . '/templates';
+    const COMPONENTS_URL    = Self::VIEW_URL . '/components';
   
     /**
      * Return url link with current language code
@@ -159,11 +160,14 @@ class Url
      *
      * @param string $template
      * @param string $path
+     * @param bool $relative
      * @return string
      */
-    public static function getTemplateUrl(string $template, string $path = ''): string 
+    public static function getTemplateUrl(string $template, string $path = '', bool $relative = true): string 
     {       
-        return Self::TEMPLATES_URL . '/' . $template . $path;       
+        $url = Self::TEMPLATES_URL . '/' . $template . $path;   
+        
+        return ($relative == false) ? Self::BASE_URL : $url;
     }
 
     /**
@@ -206,11 +210,14 @@ class Url
      * Get UI library url
      *
      * @param string $library
+     * @param bool $relative
      * @return string
      */
-    public static function getLibraryUrl(string $library): string
+    public static function getLibraryUrl(string $library, bool $relative = true): string
     {
-        return Self::LIBRARY_URL . '/' . $library;
+        $url = Self::LIBRARY_URL . '/' . $library;
+
+        return ($relative == false) ? Self::BASE_URL . $url : $url;
     }
 
     /**
@@ -233,11 +240,14 @@ class Url
      *
      * @param string $extension
      * @param string $path
+     * @param bool $relative
      * @return string
      */
-    public static function getExtensionViewUrl(string $extension, string $path = ''): string
+    public static function getExtensionViewUrl(string $extension, string $path = '', bool $relative = true): string
     {
-        return Self::EXTENSIONS_URL . '/' . $extension . '/view' . $path;
+        $url = Self::EXTENSIONS_URL . '/' . $extension . '/view' . $path;
+
+        return ($relative == false) ? Self::BASE_URL . $url : $url;
     }
 
     /**
