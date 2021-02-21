@@ -171,6 +171,21 @@ class Url
     }
 
     /**
+     * Get components library url
+     *
+     * @param string $name
+     * @param string $path
+     * @param bool $relative
+     * @return string
+     */
+    public static function getComponentsLibraryUrl(string $name, string $path = '', bool $relative = true): string 
+    {       
+        $url = Self::COMPONENTS_URL . '/' . $name . $path;   
+        
+        return ($relative == false) ? Self::BASE_URL : $url;
+    }
+
+    /**
      * Get template themes url
      *
      * @param string $template
