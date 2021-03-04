@@ -23,6 +23,23 @@ class Url
     const COMPONENTS_URL    = Self::VIEW_URL . '/components';
   
     /**
+     * Get url file name
+     *
+     * @param string $url
+     * @return string|null
+    */
+    public static function getUrlFileName(string $url): ?string
+    {
+        $path = \parse_url($url,PHP_URL_PATH);
+        if (empty($path) == true) {
+            return null;
+        }
+        $tokens = \explode('/',$path);
+
+        return end($tokens);
+    }
+
+    /**
      * Return url link with current language code
      *
      * @param string $path
