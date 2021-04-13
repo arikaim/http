@@ -305,11 +305,11 @@ class ApiResponse
     public function setClientResponse(?ResponseInterface $response = null): void
     {
         $this->response = $response;
-        if (empty($response) == false) {
-            $code = $response->getStatusCode(); // 200 - ok
+
+        if (\is_object($response) == true) {          
             $json = $this->response->getBody()->getContents();
             $data = \json_decode($json,true);
-
+            $this->result['code'] = $response->getStatusCode(); // 200 - ok
             $this->errors = $data['errors'] ?? [];         
             $this->result['result'] = $data['result'] ?? [];               
         }
