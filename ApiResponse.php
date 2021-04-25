@@ -286,10 +286,10 @@ class ApiResponse
     public function getResponseJson(): string
     {
         $this->result = \array_merge($this->result,[
-            'errors'          => $this->errors,
-            'executeion_time' => Utils::getExecutionTime(),
-            'status'          => ($this->hasError() == true) ? 'error' : 'ok',
-            'code'            => ($this->hasError() == true) ? 400 : 200           
+            'errors'         => $this->errors,
+            'execution_time' => Utils::getExecutionTime(),
+            'status'         => ($this->hasError() == true) ? 'error' : 'ok',
+            'code'           => ($this->hasError() == true) ? 400 : 200           
         ]);
         $result = ($this->raw == true) ? $this->result['result'] : $this->result;
     
