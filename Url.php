@@ -112,8 +112,9 @@ class Url
             return false;
         }
         $info = \parse_url($url);
+        $host = $info['host'] ?? '';
 
-        return ($info['hostname'] != DOMAIN);
+        return ($host != DOMAIN);
     }
 
     /**
