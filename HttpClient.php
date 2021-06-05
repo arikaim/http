@@ -9,6 +9,8 @@
  */
 namespace Arikaim\Core\Http;
 
+use Psr\Http\Message\ResponseInterface;
+
 use Arikaim\Core\Interfaces\HttpClientInterface;
 use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
 use Arikaim\Core\Http\GuzzleClientAdapter;
@@ -63,7 +65,7 @@ class HttpClient implements HttpClientInterface
      *
      * @param string|UriInterface $url
      * @param array $options
-     * @return Response|null
+     * @return mixed|null
      */
     public function fetch($url, array $options = [])
     {       

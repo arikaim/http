@@ -23,6 +23,21 @@ class Url
     const COMPONENTS_URL    = Self::VIEW_URL . '/components';
   
     /**
+     * Remove url schema
+     *
+     * @param string $url
+     * @return string
+     */
+    public static function removeSchema(string $url): string
+    {
+        $schema = \parse_url($url,PHP_URL_SCHEME);
+        $url = \str_replace($schema,'',$url);
+        $url = \str_replace("://",'',$url);
+
+        return \str_replace($schema,'',$url);
+    }
+
+    /**
      * Get url file name
      *
      * @param string $url

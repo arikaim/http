@@ -9,9 +9,11 @@
  */
 namespace Arikaim\Core\Http;
 
-use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
+use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+
+use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
 
 /**
  * Http client 

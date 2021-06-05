@@ -287,7 +287,7 @@ class ApiResponse
     {
         $this->result = \array_merge($this->result,[
             'errors'         => $this->errors,
-            'execution_time' => Utils::getExecutionTime(),
+            'execution_time' => (\microtime(true) - (\constant('APP_START_TIME') ?? 0)),
             'status'         => ($this->hasError() == true) ? 'error' : 'ok',
             'code'           => ($this->hasError() == true) ? 400 : 200           
         ]);
