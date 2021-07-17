@@ -29,7 +29,7 @@ class Session
      * @param integer|null $lifetime
      * @return void
      */
-    public static function start($lifetime = null) 
+    public static function start(?int $lifetime = null): void 
     {
         $lifetime = $lifetime ?? Self::$defaultLifetime;      
         Self::setLifetime($lifetime);
@@ -73,10 +73,10 @@ class Session
     /**
      * Urecreate session
      *
-     * @param integer $lifetime
+     * @param integer|null $lifetime
      * @return bool
      */
-    public static function recrete($lifetime = null): bool 
+    public static function recrete(?int $lifetime = null): bool 
     {
         $session = Self::toArray();
         Self::start($lifetime);
@@ -149,7 +149,7 @@ class Session
      *
      * @return array
      */
-    public static function getParams() 
+    public static function getParams(): array 
     {
         return [            
             'time_start'  => Self::getStartTime(),
