@@ -23,6 +23,41 @@ class Url
     const COMPONENTS_URL    = Self::VIEW_URL . '/components';
   
     /**
+     * Replace url query vars with params array
+     *
+     * @param string $url
+     * @param array $params
+     * @return string|null
+     */
+    public static function replaceUrlQueryParams(string $url, array $params): ?string
+    {
+        $urlParts = \parse_url($url);
+        if ($urlParts === false) {
+            return null;
+        }
+        $port = $urlParts['port'] ?? '';       
+        $path = $urlParts['path'] ?? '';
+        $query = $urlParts['query'] ?? '';
+        $fragment = $urlParts['fragment'] ?? '';
+
+        $result = $urlParts['scheme'] . '://' . $urlParts['host'];
+        $result = (empty($port) == false) ? $result . ':' . $port : $result;
+        $result .= $path;
+
+        if (empty($query) == false) {
+            // replce query vars values
+            \parse_str($query,$queryVars);
+            foreach ($queryVars as $key => $value) {
+                $queryVars[$key] = $params[$key] ?? $value;               
+            }
+            $result .= '?' . \http_build_query($queryVars);          
+        }
+        $result = (empty($fragment) == false) ? $result . '#' . $fragment : $result;
+
+        return $result;
+    }
+
+    /**
      * Remove url schema
      *
      * @param string $url
@@ -306,6 +341,6 @@ class Url
      */
     public static function isValid(string $url): bool
     {
-        return (\filter_var($url,FILTER_VALIDATE_URL) == true);
+        return !(\filter_var($url,FILTER_VALIDATE_URL) === false);
     }
 }
