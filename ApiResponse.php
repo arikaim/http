@@ -74,6 +74,93 @@ class ApiResponse
     }
 
     /**
+     * Convert to array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'result' => $this->result['result'] ?? null,
+            'status' => $this->result['status'] ?? null,
+            'code'   => $this->result['code'] ?? null,
+            'errors' => $this->errors,
+        ];
+    }
+    
+    /**
+     * Create error response
+     *
+     * @param string $error
+     * @param integer $errorCode
+     * @param ResponseInterface|null $response
+     * @return Self
+     */
+    public static function createErrorResponse(string $error = '', $errorCode = 404, ?ResponseInterface $response = null)
+    {
+        $apiResponse = new ApiResponse($response);
+        $apiResponse->setStatus('error');
+        $apiResponse->setCode($errorCode);
+        $apiResponse->setErrors([$error]);
+
+        return $apiResponse;
+    } 
+
+    /**
+     * Create api response
+     *
+     * @param array $data
+     * @param ResponseInterface|null $response
+     * @return Self|null
+     */
+    public static function createFromArray(array $data, ?ResponseInterface $response = null)
+    {
+        $apiResponse = new ApiResponse($response);
+        $apiResponse->setResult($data['result'] ?? null);
+        $apiResponse->setErrors($data['errors'] ?? []);
+        $apiResponse->setStatus($data['status'] ?? 'error');
+        $apiResponse->setCode($data['code'] ?? 404);
+
+        return $apiResponse;
+    }
+
+    /**
+     * Create from json text
+     *
+     * @param string $json
+     * @param ResponseInterface|null $response
+     * @return Self|null
+     */
+    public static function createFromJson(string $json, ?ResponseInterface $response = null)
+    {
+        $data = \json_decode($json,true);
+
+        return (\is_array($data) == true) ? Self::createFromArray($data,$response) : null;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return void
+     */
+    public function setStatus(string $status): void 
+    {
+        $this->result['status'] = $status;          
+    }
+
+    /**
+     * Set status
+     *
+     * @param mixed $code
+     * @return void
+     */
+    public function setCode($code): void 
+    {
+        $this->result['code'] = $code;          
+    }
+
+    /**
      * Set json pretty format to true
      *
      * @return ApiResponse
