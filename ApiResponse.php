@@ -163,7 +163,7 @@ class ApiResponse
     /**
      * Set json pretty format to true
      *
-     * @return ApiResponse
+     * @return Self
      */
     public function useJsonPrettyformat()
     {
@@ -356,13 +356,15 @@ class ApiResponse
      *  
      * @return ResponseInterface
      */
-    public function getResponse(bool $raw = false) 
+    public function getResponse(bool $raw = false): ResponseInterface 
     {           
         $this->raw = $raw;
         $json = $this->getResponseJson();
         $this->response->getBody()->write($json);
 
-        return $this->response->withStatus($this->result['code'])->withHeader('Content-Type','application/json');           
+        return $this->response
+            ->withStatus($this->result['code'])
+            ->withHeader('Content-Type','application/json');           
     }
 
     /**
