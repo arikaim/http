@@ -64,8 +64,19 @@ class Cookie
             
             return $response;
         } 
-    
-        return @setcookie($name,$value,$expires,'/; SameSite=' . $sameSite,$domain);        
+        
+        if (PHP_VERSION_ID < 70300) {
+            return setcookie($name,$value,$expires,'/; SameSite=' . $sameSite,$domain);      
+        }
+
+        return setcookie($name, $value,[
+            'expires'   => $expires,
+            'path'      => '/',
+            'domain'    => $domain,
+            'samesite'  => $sameSite,
+            'secure'    => false,
+            'httponly'  => false,
+        ]); 
     }
 
     /**
