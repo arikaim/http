@@ -26,7 +26,7 @@ class Cookie
     */
     public static function delete($name, $response = null, $domain = '')
     {        
-        if (isset($_COOKIE[$name])) {
+        if (isset($_COOKIE[$name]) == true) {
             unset($_COOKIE[$name]);
         }
 
@@ -65,7 +65,7 @@ class Cookie
             return $response;
         } 
     
-        return setcookie($name,$value,$expires,'/; SameSite=' . $sameSite,$domain);        
+        return @setcookie($name,$value,$expires,'/; SameSite=' . $sameSite,$domain);        
     }
 
     /**
