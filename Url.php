@@ -343,4 +343,18 @@ class Url
     {
         return !(\filter_var($url,FILTER_VALIDATE_URL) === false);
     }
+
+    /**
+     * Add url schema
+     *
+     * @param string $url
+     * @param string $schema
+     * @return string
+     */
+    public static function addSchema(string $url, string $schema = 'http://'): string 
+    {        
+        $schema = \parse_url($url,PHP_URL_SCHEME);
+
+        return (empty($schema) == true || $schema === false) ? $schema . $url : $url;
+    }
 }
