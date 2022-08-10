@@ -9,8 +9,6 @@
  */
 namespace Arikaim\Core\Http;
 
-use Arikaim\Core\Collection\Arrays;
-
 /**
  * Session wrapper
  */
@@ -183,17 +181,6 @@ class Session
     public static function get(string $name, $default = null)
     {
         return $_SESSION[$name] ?? $default;
-    }
-    
-    /**
-     * Return sesion var by path
-     *
-     * @param string $path
-     * @return mixed
-     */
-    public static function getValue(string $path)
-    {
-        return Arrays::getValue($_SESSION,$path);        
     }
     
     /**

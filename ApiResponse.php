@@ -214,7 +214,7 @@ class ApiResponse
     public function setError(string $errorMessage, bool $condition = true): void 
     {
         if ($condition !== false) {
-            \array_push($this->errors,$errorMessage);  
+            $this->errors[] = $errorMessage;  
         }               
     }
 
@@ -376,7 +376,7 @@ class ApiResponse
     {
         $this->result = \array_merge($this->result,[
             'errors'         => $this->errors,
-            'execution_time' => (\microtime(true) - (\defined('APP_START_TIME') ? APP_START_TIME : $GLOBALS['APP_START_TIME'] ?? 0)),
+            'execution_time' => (\microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0),
             'status'         => ($this->hasError() == true) ? 'error' : 'ok',
             'code'           => ($this->hasError() == true) ? 400 : 200           
         ]);
