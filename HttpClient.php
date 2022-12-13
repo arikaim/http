@@ -14,6 +14,8 @@ use Psr\Http\Message\ResponseInterface;
 use Arikaim\Core\Interfaces\HttpClientInterface;
 use Arikaim\Core\Http\Interfaces\HttpClientAdapterInterface;
 use Arikaim\Core\Http\GuzzleClientAdapter;
+use Arikaim\Core\Http\ApiResponse;
+use Exception;
 
 /**
  * Http client 
@@ -189,5 +191,34 @@ class HttpClient implements HttpClientInterface
     public function connect($uri, array $options = [])
     {
         return $this->adapter->request('CONNECT',$uri,$options);
+    }
+
+    /**
+     * Convert reponse to array
+     *
+     * @param mixed $response
+     * @return array|null
+     * @throws Exception
+     */
+    public function toArray($response): ?array
+    {
+        if ($response instanceof ResponseInterface) {
+            return (new ApiResponse($response))->toArray();
+        }
+
+        if (\is_string($response) == true) {
+            return \json_decode($response,true);
+        }
+
+        if (\is_object($response) == true) {
+            return (array)$response;
+        }
+
+        if (\is_array($response) == true) {
+            return $response;
+        }
+
+        throw new Exception('Not valid response');
+        return null;
     }
 }
