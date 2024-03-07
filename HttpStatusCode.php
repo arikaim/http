@@ -63,7 +63,7 @@ class HttpStatusCode {
      * @param  string|int $code
      * @return string|null
      */
-    public static function getMessage($code): ?string
+    public static function getMessage(int $code): ?string
     {
         return Self::CODES[$code] ?? null;
     }
@@ -74,7 +74,7 @@ class HttpStatusCode {
      * @param string|int $code
      * @return boolean
      */
-    public static function isValid($code): bool
+    public static function isValid(int $code): bool
     {
         return \in_array($code,Self::CODES);
     } 
