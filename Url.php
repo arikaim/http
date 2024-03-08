@@ -235,7 +235,7 @@ class Url
     {       
         $url = Self::TEMPLATES_URL . '/' . $template . $path;   
         
-        return ($relative == false) ? Self::BASE_URL . $url : $url;
+        return ($relative == false) ? DOMAIN . $url : $url;
     }
 
     /**
@@ -250,7 +250,7 @@ class Url
     {       
         $url = Self::COMPONENTS_URL . '/' . $name . $path;   
         
-        return ($relative == false) ? Self::BASE_URL . $url : $url;
+        return ($relative == false) ? DOMAIN . $url : $url;
     }
 
     /**
@@ -300,7 +300,7 @@ class Url
     {
         $url = Self::LIBRARY_URL . '/' . $library;
 
-        return ($relative == false) ? Self::BASE_URL . $url : $url;
+        return ($relative == false) ? DOMAIN . $url : $url;
     }
 
     /**
