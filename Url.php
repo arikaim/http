@@ -23,6 +23,24 @@ class Url
     const COMPONENTS_URL    = Self::VIEW_URL . '/components';
   
     /**
+     * Replace url scheme
+     * @param string $url
+     * @param string $new
+     * @return string
+     */
+    public static function replaceScheme(string $url, string $new = 'https'): string
+    {
+        if (Self::isValid($url) == false) {
+            return $url;
+        }
+
+        $scheme = \parse_url($url,PHP_URL_SCHEME);
+
+        return (empty($scheme) == true || $scheme === false) ? $url :
+            \str_replace($scheme,$new,$url);
+    }   
+    
+    /**
      * Replace url query vars with params array
      *
      * @param string $url
